@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESTAR NO ES PARTICIPAR · Mes de la Inclusión</title>
+  <meta name="description" content="Novela visual interactiva sobre barreras, derechos y participación. Una jornada comunitaria en El Colorado, Formosa. Con lectura en voz alta y una escena 3D.">
+  <meta name="theme-color" content="#15122a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315122a'/%3E%3Cpath d='M14 46h10v-8h10v-8h10v-8h6' fill='none' stroke='%23f4b942' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+
+  <header class="topbar">
+    <p class="brand"><span class="brand-mark" aria-hidden="true"></span> ESTAR NO ES PARTICIPAR</p>
+    <nav class="toolbar" aria-label="Opciones">
+      <button type="button" id="btn-chapters" class="btn btn-small">Capítulos</button>
+      <button type="button" id="btn-chars" class="btn btn-small">Personajes</button>
+      <button type="button" id="btn-rights" class="btn btn-small">Derechos y fuentes</button>
+      <span class="size-group" role="group" aria-label="Tamaño del texto">
+        <button type="button" id="btn-smaller" class="btn btn-small" aria-label="Achicar el texto">A−</button>
+        <button type="button" id="btn-bigger" class="btn btn-small" aria-label="Agrandar el texto">A+</button>
+      </span>
+      <button type="button" id="btn-reset" class="btn btn-small btn-danger">Reiniciar</button>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <noscript><p class="notice">Esta experiencia necesita JavaScript. Podés leer el contenido completo en el archivo README del proyecto.</p></noscript>
+
+    <!-- INICIO -->
+    <section id="view-start" class="start" aria-labelledby="start-title">
+      <div class="start-art" id="start-art" aria-hidden="true"></div>
+      <div class="start-card">
+        <p class="kicker">Mes de la Inclusión · Novela visual · 8 a 12 minutos</p>
+        <h1 id="start-title">Estar no es participar</h1>
+        <p class="lead">Un grupo organiza una jornada comunitaria en El Colorado, Formosa. Vos participás de la organización y tus decisiones cambian quién puede llegar, entender y ser parte.</p>
+
+        <div id="resume-box" class="resume" hidden>
+          <p><strong>Tenés un recorrido guardado en este dispositivo.</strong> <span id="resume-info"></span></p>
+          <div class="btn-row">
+            <button type="button" id="resume-narr" class="btn btn-primary">Continuar con narración</button>
+            <button type="button" id="resume-text" class="btn">Continuar sin narración</button>
+            <button type="button" id="resume-new" class="btn btn-ghost">Empezar de nuevo</button>
+          </div>
+        </div>
+
+        <fieldset class="mode-set">
+          <legend>¿Cómo van a jugar?</legend>
+          <label class="radio-card"><input type="radio" name="mode" value="solo" checked><span><strong>Individual</strong><small>Una persona decide.</small></span></label>
+          <label class="radio-card"><input type="radio" name="mode" value="group"><span><strong>Grupal</strong><small>Una pantalla compartida: conversan, eligen una respuesta juntos y recién ahí avanzan.</small></span></label>
+        </fieldset>
+
+        <div id="new-box">
+          <p class="small">La voz sólo se inicia cuando elegís una de estas dos opciones. Todo lo que se dice también está escrito.</p>
+          <div class="btn-row">
+            <button type="button" id="start-narr" class="btn btn-primary btn-big">Con narración</button>
+            <button type="button" id="start-text" class="btn btn-big">Sin narración</button>
+          </div>
+        </div>
+        <p id="start-voice-msg" class="notice" role="status" hidden></p>
+        <p class="small">No pide cuentas ni datos personales. Tu progreso se guarda sólo en este dispositivo. Si usás lector de pantalla, elegí “Sin narración” para evitar dos voces a la vez.</p>
+      </div>
+    </section>
+
+    <!-- HISTORIA -->
+    <section id="view-story" class="story" hidden aria-label="Historia">
+      <div class="progress">
+        <p id="progress-text" class="progress-text"></p>
+        <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+        <p id="mode-badge" class="badge"></p>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="bg-layer" id="bg-a"></div>
+        <div class="bg-layer" id="bg-b"></div>
+        <div class="gl-host" id="gl-host" hidden></div>
+        <div class="prop" id="prop" hidden></div>
+        <div class="chars" id="chars"></div>
+        <div class="chapter-card" id="chapter-card" hidden></div>
+      </div>
+
+      <div class="controls3d" id="controls3d" hidden>
+        <p class="c3d-help" id="c3-help">Arrastrá para girar la escena, o usá los botones.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-small" id="c3-left" aria-label="Girar la escena a la izquierda">◀ Girar</button>
+          <button type="button" class="btn btn-small" id="c3-right" aria-label="Girar la escena a la derecha">Girar ▶</button>
+          <button type="button" class="btn btn-small" id="c3-in" aria-label="Acercar la vista">＋ Acercar</button>
+          <button type="button" class="btn btn-small" id="c3-out" aria-label="Alejar la vista">－ Alejar</button>
+          <button type="button" class="btn btn-small" id="c3-reset">Vista inicial</button>
+          <button type="button" class="btn btn-small" id="c3-toggle" aria-pressed="false">Ver cómo era antes</button>
+          <button type="button" class="btn btn-small" id="c3-mode" aria-pressed="false">Usar vista simple</button>
+        </div>
+        <p class="caption3d" id="caption3d" role="status" aria-live="polite"></p>
+      </div>
+
+      <article class="dialogue" id="dialogue" aria-live="off">
+        <p class="speaker" id="speaker" hidden></p>
+        <div id="beat-body" tabindex="-1"></div>
+        <div id="small-print" class="small-print" hidden></div>
+        <div id="persp-box" class="persp" hidden></div>
+        <div class="nav-row">
+          <button type="button" id="btn-prev" class="btn">← Escena anterior</button>
+          <button type="button" id="btn-persp" class="btn btn-ghost" hidden>Escuchar otra perspectiva</button>
+          <button type="button" id="btn-print" class="btn btn-ghost" hidden>Ver la letra chica del afiche</button>
+          <span class="spacer"></span>
+          <div id="extra-actions" class="extra-actions"></div>
+          <button type="button" id="btn-next" class="btn btn-primary btn-big">Continuar →</button>
+        </div>
+      </article>
+
+      <div class="voicebar" role="group" aria-label="Lectura en voz alta">
+        <button type="button" id="v-listen" class="btn btn-small">🔊 Escuchar</button>
+        <button type="button" id="v-pause" class="btn btn-small">⏸ Pausar</button>
+        <button type="button" id="v-stop" class="btn btn-small">⏹ Detener</button>
+        <button type="button" id="v-toggle" class="btn btn-small" aria-pressed="false">🔇 Desactivar narración</button>
+        <label class="rate">Velocidad
+          <select id="v-rate"><option value="0.8">Lenta</option><option value="1" selected>Normal</option><option value="1.2">Rápida</option></select>
+        </label>
+        <p id="voice-status" class="voice-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- REVISIÓN -->
+    <section id="view-review" class="review" hidden aria-labelledby="review-title">
+      <h2 id="review-title" tabindex="-1">Volver a mirar mis decisiones</h2>
+      <p class="lead">No hay una forma “correcta” de ser. Acá ves qué pasó con cada camino y podés volver a decidir para ver cómo cambian las consecuencias y el final.</p>
+      <ol id="review-list" class="review-list"></ol>
+      <p id="review-ending" class="review-ending"></p>
+      <div class="btn-row">
+        <button type="button" id="review-back" class="btn btn-primary">Volver al final</button>
+        <button type="button" id="review-rights" class="btn">Derechos y fuentes</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Belén Dellamea · Experiencia educativa creada con IA</p>
+    <p class="small"><a href="FUENTES-Y-LICENCIAS.md">Fuentes y licencias</a> · Sin música de fondo · Sin cuentas ni datos personales</p>
+  </footer>
+
+  <dialog id="dlg-rights" class="dlg" aria-labelledby="dlg-rights-t">
+    <div class="dlg-in">
+      <h2 id="dlg-rights-t">Derechos y fuentes</h2>
+      <p>Esta experiencia se apoya en la <strong>Convención sobre los Derechos de las Personas con Discapacidad</strong> (Naciones Unidas), con jerarquía constitucional en Argentina. Los textos de abajo son <strong>paráfrasis</strong> para entender las escenas: el texto oficial es el que vale.</p>
+      <div id="rights-list"></div>
+      <h3>Una aclaración importante</h3>
+      <p>Las decisiones de un grupo o de una persona ayudan, pero <strong>no reemplazan las responsabilidades de las instituciones</strong>: obras de accesibilidad, intérpretes, servicios y presupuesto corresponden también al Estado y a las organizaciones.</p>
+      <h3>Fuentes</h3>
+      <ul id="sources-list"></ul>
+      <p class="small">Aviso: este contenido es educativo, no es asesoramiento legal.</p>
+      <button type="button" class="btn btn-primary" data-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-chars" class="dlg" aria-labelledby="dlg-chars-t">
+    <div class="dlg-in">
+      <h2 id="dlg-chars-t">Personajes</h2>
+      <p>Cada persona es mucho más que un rasgo: tienen intereses, opiniones y decisiones propias.</p>
+      <ul id="chars-list" class="chars-list"></ul>
+      <button type="button" class="btn btn-primary" data-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-chapters" class="dlg" aria-labelledby="dlg-chapters-t">
+    <div class="dlg-in">
+      <h2 id="dlg-chapters-t">Capítulos</h2>
+      <p>Podés volver a cualquier capítulo que ya hayas visto.</p>
+      <ol id="chapters-list" class="chapters-list"></ol>
+      <button type="button" class="btn btn-primary" data-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-confirm" class="dlg dlg-small" aria-labelledby="dlg-confirm-t">
+    <div class="dlg-in">
+      <h2 id="dlg-confirm-t">¿Reiniciar la experiencia?</h2>
+      <p>Se borra el progreso guardado en este dispositivo y volvés al inicio.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-danger" id="confirm-yes">Sí, reiniciar</button>
+        <button type="button" class="btn btn-primary" data-close>No, seguir</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
